@@ -14,6 +14,7 @@
   export default {
     name: 'vue-electron',
     created(){
+      window.$router = this.$router
       // console.log('* created', this.$route)
     }
   }

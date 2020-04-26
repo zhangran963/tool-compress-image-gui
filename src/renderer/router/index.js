@@ -14,6 +14,11 @@ export default new Router({
       component: () => import('../pages/LandingPage/LandingPage.vue')
     },
     {
+      path: '/drag',
+      name: 'drag-page',
+      component: () => import('../pages/home/drag')
+    },
+    {
       path: '/',
       component: require('../pages/home/index.vue').default,
     },
