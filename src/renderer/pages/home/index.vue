@@ -40,8 +40,8 @@ export default {
 		};
 	},
 	created() {
-		console.log('* BrowserWindow', remote.BrowserWindow);
-		console.log('* node path', path.resolve(__dirname, 'list'));
+		// console.log('* BrowserWindow', remote.BrowserWindow);
+		// console.log('* node path', path.resolve(__dirname, 'list'));
 		// let newWindow = new remote.BrowserWindow({
 		//   height: 640,
 		// 	useContentSize: true,
@@ -53,9 +53,9 @@ export default {
 		// newWindow.loadURL('https://github.com')
     // console.log('* home created', newWindow);
     
-    document.addEventListener('drop', e => {
-      console.log('* drop ducument', e)
-    }, false)
+    // document.addEventListener('drop', e => {
+    //   console.log('* drop ducument', e)
+    // }, false)
   },
   mounted(){
     this.$router.push('/drag')

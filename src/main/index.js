@@ -1,9 +1,6 @@
-// exports.fixPathForAsarUnpack = path => exports.isUsingAsar ? path.replace('app.asar', 'app.asar.unpacked') : path;
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 
-
-
-import { app, BrowserWindow, ipcMain } from 'electron'
-
+const isDev = process.env.NODE_ENV === 'development'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -19,17 +16,24 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 function createWindow () {
+  /* 隐藏 */
+  Menu.setApplicationMenu(null)
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 1200,
+    width: 600,
+    height: isDev ? 1000 :600,
     useContentSize: true,
-    width: 600
+    webPreferences: {
+      nodeIntegration: true, /* 支持渲染进程中使用clipboard模块等 */
+    }
   })
 
+
+
   /* 暂定生产模式, 也会开启开发者工具, 方便调试 */
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   mainWindow.loadURL(winURL)
 

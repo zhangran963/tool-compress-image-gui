@@ -3,9 +3,9 @@
 		<com-drag-box @change="(validFile) => {this.file = validFile}"></com-drag-box>
 
     <div class="btn-box" v-if="file && file.isValid">
-      <button class="btn start" v-if="status === null" @click="compressHandler">开始压缩</button>
-      <button class="btn compressing" v-if="status === true">压缩中...</button>
-      <button class="btn error" v-if="status === false" @click="resetHandler">恢复</button>
+      <van-button type="primary" v-if="status === null" @click="compressHandler">开始压缩</van-button>
+      <van-button type="primary" v-if="status === true" :disabled="true">压缩中...</van-button>
+      <van-button type="warning" v-if="status === false" @click="resetHandler">重置</van-button>
     </div>
 	</div>
 </template>
@@ -13,7 +13,7 @@
 <script>
 const compress = require('./node-compress/index')
 import ComDragBox from './drag-box';
-
+import { clipboard } from "electron";
 
 export default {
 	components: { ComDragBox },
@@ -26,12 +26,25 @@ export default {
       console.log('* 父组件接收: ', curr)
     }
   },
+  mounted(){
+    // let s = this.$notify({
+    //   message: '提示文案',
+    //   duration: 5000,
+    //   color: '#ad0000',
+    //   background: '#ffe1e1'
+    // })
+    this.$notify.warning('嘿嘿')
+    // this.$notify('提示文本').then(res => console.log(res))
+  },
   methods: {
     /* 压缩 */
     compressHandler(){
       this.status = true
       compress(this.file.path).then(res => {
         console.log('* 压缩结果', res)
+
+        /* 剪切板 */
+        clipboard.writeText(`压缩结果地址: ${res.outputFullname}`)
 
         /* 恢复状态 */
         this.status = null
@@ -63,6 +76,10 @@ export default {
       border-radius: 2px;
       font-size: 20px;
       color: white;
+
+      &.compressing{
+        opacity: 0.5;
+      }
     }
   }
 }

@@ -47,7 +47,10 @@ export default {
 
 			let { dataTransfer } = event;
 			// console.log('* 类型', dataTransfer)
-			const file = dataTransfer.files[0];
+      const file = dataTransfer.files[0];
+
+      
+      console.log('* files.length', dataTransfer.files.length)
 			const { name, path, type, size } = file;
 
 			const stat = fs.statSync(path);
@@ -96,7 +99,7 @@ export default {
 	.drop-zone {
 		box-sizing: border-box;
 		width: 100%;
-		height: 180px;
+		height: 240px;
 		background: rgb(255, 231, 154);
 		margin-bottom: 10px;
 		padding: 10px;
@@ -111,6 +114,7 @@ export default {
 			color: rgba(0, 0, 0, 0.28);
 
 			font-size: 24px;
+      white-space: nowrap;
 		}
 	}
 

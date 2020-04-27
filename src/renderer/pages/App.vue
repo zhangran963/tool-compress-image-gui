@@ -4,7 +4,7 @@
     <!-- <button class="btn-home-page" @click="$router.push('/landing')">root页</button> -->
     <!-- <button class="btn-home-page" @click="$router.push('/')">home页</button> -->
 
-    <hr>
+    <!-- <hr> -->
 
     <router-view></router-view>
   </div>
@@ -23,7 +23,6 @@
 <style lang="scss">
 /* @import '~@/style/index.scss': css, img.src 等文件中的绝对路径写法 */
 @import '~@/style/index.scss';
-@import '~@/style/global.scss';
 
 .path{
   padding: 0.3em 0 0.6em;
