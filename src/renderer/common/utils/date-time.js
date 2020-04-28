@@ -1,4 +1,4 @@
-import * as Func from "./func";
+import * as utils from "./index";
 
 /**
  * 日期字符串 => 日期对象
@@ -17,10 +17,10 @@ export function getDateObj(dateStr = "") {
  * @param {Date} dateObj 日期对象
  */
 export function getDateStr(dateObj) {
-  if (!Func.isDefDate(dateObj)) {
+  if (!utils.isDefDate(dateObj)) {
     dateObj = new Date(dateObj);
   }
-  if (Func.isDefDate(dateObj)) {
+  if (utils.isDefDate(dateObj)) {
     const year = dateObj.getFullYear();
     const month = dateObj.getMonth()+1;
     const date = dateObj.getDate();
