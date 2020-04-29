@@ -23,7 +23,7 @@ function createWindow () {
    */
   mainWindow = new BrowserWindow({
     width: 600,
-    height: isDev ? 1000 :600,
+    height: isDev ? 1400 :700,
     useContentSize: true,
     webPreferences: {
       nodeIntegration: true, /* 支持渲染进程中使用clipboard模块等 */

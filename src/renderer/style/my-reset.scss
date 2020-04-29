@@ -1,4 +1,4 @@
-*, html, body {
+html, body {
 	margin: 0;
 	padding: 0;
 }
@@ -14,12 +14,12 @@ div {
     box-sizing: border-box;
 }
 
-button{
-    box-sizing: border-box;
-    border: none;
-    outline: none;
-    font-size: inherit;
-}
+// button{
+//     box-sizing: border-box;
+//     border: none;
+//     outline: none;
+//     font-size: inherit;
+// }
 
 label{
     display: block;

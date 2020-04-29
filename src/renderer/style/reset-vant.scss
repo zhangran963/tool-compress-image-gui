@@ -7,3 +7,34 @@
 }
 
 // van-notify--success
+
+.van-radio{
+  // margin-right: 5em;
+
+  .van-radio__icon{
+    // border-radius: 4px;
+  }
+  .van-icon{
+    border-radius: 3px;
+  }
+  .van-radio__label{
+    font-size: $fontSize * 1.12;
+    padding-right: 60px;
+  }
+}
+
+
+.van-button{
+  height: 36px;
+  line-height: 36px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.van-popup{
+  background-color: transparent;
+}

@@ -4,7 +4,9 @@
  * @include text-ellipsis(3);
  */
 
+
 /* 单行文本溢出 */
+/* 前向省略, 可设置 direction: rtl; */
 @mixin oneline {
   overflow: hidden;
   white-space: nowrap;

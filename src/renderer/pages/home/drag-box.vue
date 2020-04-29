@@ -4,7 +4,7 @@
 		<div class="drop-zone" @drop="dropHandler" @dragover="preventHandler">
 			<p class="placeholder" :style="{ opacity: file ? 0.2 : 1 }">这里可接受外部拖放的文件</p>
 			<div v-if="file">
-				<p>文件{{ file.isDirectory ? '夹' : '' }}名: {{ file.name }}</p>
+				<p>文件{{ file.isDir ? '夹' : '' }}名: {{ file.name }}</p>
 				<p v-if="file.isFile">类型: {{ file.type }}</p>
 				<p>路径: {{ file.path }}</p>
 			</div>
@@ -55,10 +55,10 @@ export default {
 
 			const stat = fs.statSync(path);
 			const mode = (stat.mode & parseInt('777', 8)).toString(8);
-			const isDirectory = stat.isDirectory();
+			const isDir = stat.isDir();
 			const isFile = stat.isFile();
 
-			const res = Object.assign(file, { mode, isDirectory, isFile });
+			const res = Object.assign(file, { mode, isDir, isFile });
 			const validObj = this.verifyFile(res);
 			this.file = Object.assign(res, validObj);
 		},
@@ -93,6 +93,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
 .drag-box {
 	position: relative;
 
