@@ -33,7 +33,7 @@ function createWindow () {
 
 
   /* 暂定生产模式, 也会开启开发者工具, 方便调试 */
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   mainWindow.loadURL(winURL)
 

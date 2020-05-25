@@ -1,5 +1,5 @@
 <template>
-  <div class="base64-file">
+  <div class="com-body-base64">
     base64盒子
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
 
 
 <style lang="scss" scoped>
-.base64-file{
+.com-body-base64{
 
 }
 </style>

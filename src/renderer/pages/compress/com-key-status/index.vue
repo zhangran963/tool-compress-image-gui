@@ -25,20 +25,15 @@ export default {
 		},
 	},
 	created() {
-		this.$bus.on(BusName.apiKey, this.update);
-
 		this.getCurrCount();
 	},
-	mounted() {},
 	methods: {
 		update(params) {
 			if (isDefStr(params)) {
 				if (params === 'decrease') {
-					/* this.$bus.emit('update:api-key', 'decrease') */
 					this.num = this.num - 1;
 				}
 			} else if (isDefNum(params)) {
-				/* this.$bus.emit('update:api-key', 100) */
 				this.num = params;
 			} else {
 				this.getCurrCount();
@@ -48,9 +43,6 @@ export default {
 		getCurrCount() {
 			Tinify.getCompressionCount().then((currNum) => (this.num = currNum));
 		},
-	},
-	beforeDestroy() {
-		this.$bus.off(BusName.apiKey, this.update);
 	},
 };
 </script>
@@ -100,8 +92,8 @@ $mainColor: $darkBlue;
 			transparent 5px,
 			$processColor 0,
 			$processColor 10px
-    );
-    border-right: 1px solid rgba($color: $processColor, $alpha: 0.5);
+		);
+		border-right: 1px solid rgba($color: $processColor, $alpha: 0.5);
 	}
 }
 </style>

@@ -10,22 +10,20 @@ const addZero = (num) => (parseInt(num) < 10 ? '0' + num : num);
  * @param {string} name 原名称
  */
 export function templatifyFilename(pattern = '', index = 0, name = '') {
-  let varItems = pattern.match(/\{([a-zA-Z]+)\}/g) || [];
+	let varItems = pattern.match(/\{([a-zA-Z]+)\}/g) || [];
 
 	const date = new Date();
 	let paramBox = {
-		index: ''+index,
+		index: '' + index,
 		name,
 		date: `${date.getFullYear()}${addZero(date.getMonth() + 1)}${addZero(date.getDate())}`,
 		time: `${addZero(date.getHours())}:${addZero(date.getMinutes())}`,
 	};
 	let res = varItems.reduce((prev, key) => {
-    let innerKey = key.slice(1, -1);
-    let value = paramBox[innerKey] || '';
+		let innerKey = key.slice(1, -1);
+		let value = paramBox[innerKey] || '';
 		return prev.replace(key, value);
 	}, pattern);
 
 	return res;
 }
-
-

@@ -1,5 +1,5 @@
 <template>
-	<van-popup v-model="selfShow" :closeable="true" @close="close">
+	<van-popup v-model="show" :closeable="false" :close-on-click-overlay="false" @close="close" @click-overlay="close">
 		<div class="modal-change-template">
 			<h4 class="title">输出文件名模板</h4>
 			<ul class="items">
@@ -19,8 +19,10 @@
 </template>
 
 <script>
+import { store } from '../../../common/utils';
 const defTemplate = '{name}';
 
+/* 用于示例的固定值 */
 const defName = '我是文件名',
 	defDate = '20200501',
 	defTime = '12:55',
@@ -28,39 +30,47 @@ const defName = '我是文件名',
 export default {
 	props: ['show'],
 	data: () => ({
-    selfShow: false,
-		newTemplate: '',
-
-		previewStr: '',
+		newTemplate: '' /* 即时filenameTemplate值 */,
+		previewStr: '' /* 按即时值, 计算的示例 */,
 	}),
 	watch: {
-		show(currShow) {
-			if (currShow) {
-        this.selfShow = true
-				this.newTemplate = defTemplate;
-			}else{
-        this.selfShow = false
-      }
+		/* 新模板 */
+		newTemplate: {
+			handler(currTemplate) {
+				/* 预览模板 */
+				this.previewStr = currTemplate
+					.replace('{name}', defName)
+					.replace('{date}', defDate)
+					.replace('{time}', defTime)
+					.replace('{index}', defIndex);
+			},
+			immediate: true,
 		},
-		newTemplate(currTemplate) {
-			/* 预览模板 */
-			this.previewStr = currTemplate
-				.replace('{name}', defName)
-				.replace('{date}', defDate)
-				.replace('{time}', defTime)
-				.replace('{index}', defIndex);
+
+		/* 每次显示后, 重置数据 */
+		show: {
+			handler(value) {
+				if (value) {
+					this.newTemplate = store.get('filenameTemplate');
+				}
+			},
+			immediate: true,
 		},
 	},
 	methods: {
+		/**
+		 * 更新 输出文件名称模板
+		 */
 		update() {
 			const newTemplate = this.newTemplate;
 			if (newTemplate.length === 0) {
-        this.$notify.danger('请填写模板')
+				this.$notify.danger('请填写模板');
 			} else {
-				this.$emit('update', this.newTemplate);
+				store.set('filenameTemplate', newTemplate);
 				this.close();
 			}
 		},
+		/* 关闭弹窗 */
 		close() {
 			this.$emit('close');
 		},

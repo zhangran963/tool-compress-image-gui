@@ -1,5 +1,5 @@
 <template>
-	<div class="path-file" :class="files.length ? '' : 'empty'" v-drag.file="receiveHandler">
+	<div class="com-body-path" :class="files.length ? '' : 'empty'" v-drag.file="receiveHandler">
 		<div class="content">
 			<!-- 提示 -->
 			<p class="placeholder" v-if="files.length === 0">可拖放文件到这里</p>
@@ -11,7 +11,7 @@
 				@delete="deleteItem(index)"
 			></com-file-item>
 			<!-- "添加"按钮 -->
-			<div class="add-btns">
+			<div class="add-btn-box">
 				<label for="file-input" class="my-btn add" v-if="true">{{ files.length ? '继续添加' : '添加' }}</label>
 				<!-- 选择文件input -->
 				<input
@@ -38,7 +38,6 @@ import {
 	execPro,
 	queue,
 	sleep,
-	readConfig,
 	path,
 	templatifyFilename,
 	effectify,
@@ -111,21 +110,21 @@ export default {
 
 		/* 总处理: 开始, 全部完成 */
 		startCompress() {
-			return readConfig()
-				.then(({ outputPath = '', outputFilename = '' }) => {
-					this.outputPath = outputPath;
-					this.outputFilename = outputFilename;
-					return queue();
-				})
-				.then((res) => {
-					console.log('* all', res);
-				})
-				.catch((err) => {
-					console.error('* err', err);
-				})
-				.finally(() => {
-					this.prevLength = this.files.length;
-				});
+			// return readConfig()
+			// 	.then(({ outputPath = '', outputFilename = '' }) => {
+			// 		this.outputPath = outputPath;
+			// 		this.outputFilename = outputFilename;
+			// 		return queue();
+			// 	})
+			// 	.then((res) => {
+			// 		console.log('* all', res);
+			// 	})
+			// 	.catch((err) => {
+			// 		console.error('* err', err);
+			// 	})
+			// 	.finally(() => {
+			// 		this.prevLength = this.files.length;
+			// 	});
 		},
 
 		/* 单项处理: 路径处理, 压缩 */
@@ -204,13 +203,14 @@ export default {
 <style lang="scss" scoped>
 @import '~@/style/index.scss';
 
-.path-file {
+.com-body-path {
+  // background-color: $white;
+
 	.content {
-		background-color: $white;
-		box-shadow: 0 2px 6px rgba($color: #000000, $alpha: 0.1), 0 6px 16px rgba($color: #000000, $alpha: 0.08);
+		// box-shadow: 0 2px 6px rgba($color: #000000, $alpha: 0.1), 0 6px 16px rgba($color: #000000, $alpha: 0.08);
 		border-radius: $borderRadius;
 
-		.add-btns {
+		.add-btn-box {
 			padding: 28px 0;
 			text-align: center;
 		}

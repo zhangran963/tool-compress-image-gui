@@ -24,10 +24,6 @@ export default {
 
 /* 输出模式 */
 .com-output-mode {
-	cursor: default;
-	border: 2px dashed $blue;
-  min-height: 120px;
-  background-color: $white;
 
 	@include flex-row(center, center);
 	.placeholder {

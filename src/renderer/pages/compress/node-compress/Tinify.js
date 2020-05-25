@@ -1,9 +1,9 @@
+import { store } from "../../../common/utils";
+
+
+
 const Tinify = require('tinify');
 Tinify.key = 'zq9bG1BlfSg7Kt6YHwyVqhhyVCK4JFfR';
-// const { validate: originValidate } = Tinify
-
-
-
 
 /**
  * 重写验证方法
@@ -11,44 +11,35 @@ Tinify.key = 'zq9bG1BlfSg7Kt6YHwyVqhhyVCK4JFfR';
 function validate() {
 	return new Promise((res, rej) => {
 		Tinify.validate(function(err) {
-      if(err){
-        rej(err)
-      }else{
-        res(true)
-      }
+			if (err) {
+				rej(err);
+			} else {
+				res(true);
+			}
 			// console.log('* ', Tinify.compressionCount);
 		});
 	});
 }
 
 /**
- * 获取次数
+ * 获取剩余次数
  */
-function getCompressionCount(){
-  if(typeof Tinify.compressionCount === 'number'){
-    return Promise.resolve(Tinify.compressionCount)
-  }else{
-    return validate().then(isNormal => {
-      if(typeof Tinify.compressionCount === 'number'){
-        return Tinify.compressionCount
-      }else{
-        return Promise.reject({msg: `Tinify.compressionCount错误 ${Tinify.compressionCount}`})
-      }
-    })
-  }
+function getCompressionCount() {
+	if (typeof Tinify.compressionCount === 'number') {
+		return Promise.resolve(Tinify.compressionCount);
+	} else {
+		return validate().then((isNormal) => {
+			if (typeof Tinify.compressionCount === 'number') {
+				return Tinify.compressionCount;
+			} else {
+				return Promise.reject({ msg: `Tinify.compressionCount错误 ${Tinify.compressionCount}` });
+			}
+		});
+	}
 }
 
-// module.exports = {
-//   ...Tinify,
-//   validate,
-//   getCompressionCount
-// };
-
-// module.exports = Tinify
-export {
-  Tinify
-} 
+export { Tinify };
 export default {
-  validate,
-  getCompressionCount
-}
+	validate,
+	getCompressionCount,
+};

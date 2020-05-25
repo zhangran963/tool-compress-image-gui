@@ -6,17 +6,9 @@
 		<!-- 操作模式 -->
 		<com-config></com-config>
 
-		<com-dealwith :modeIndex="modeIndex"></com-dealwith>
-
 		<!-- 主体/进度 区 -->
-		<com-body
-			:modeIndex="modeIndex"
-			@change="
-				(validFile) => {
-					this.file = validFile;
-				}
-			"
-		></com-body>
+		<com-body-path class="com-body" v-if="modeIndex === 0"></com-body-path>
+		<com-body-base64 class="com-body" v-else></com-body-base64>
 
 		<!-- base64图片区 -->
 		<!-- .demoImg{ background-image: url("data:image/jpg;base64,/9j/4QMZRXhpZgAASUkqAAgAAAAL...."); } -->
@@ -38,16 +30,14 @@ const base64ify = require('./node-base64ify/index');
 
 import ComKeyStatus from './com-key-status';
 import ComConfig from './com-config';
-import ComDealwith from './com-dealwith';
-import ComBody from './com-body/index';
+import ComBodyPath from './com-body-path/index';
+import ComBodyBase64 from './com-body-base64/index';
 
 import { clipboard } from 'electron';
-import { sleep, BusName, store, originStore,storeEvent } from '../../common/utils';
-
-const imgPath1 = '/Users/ran/Desktop/未命名文件夹/Xnip2020-02-29_00-28-45.jpg';
+import { sleep, store, isDefNum } from '../../common/utils';
 
 export default {
-	components: { ComKeyStatus, ComConfig, ComDealwith, ComBody },
+	components: { ComKeyStatus, ComConfig, ComBodyPath, ComBodyBase64 },
 	data: () => ({
 		modeIndex: 0,
 
@@ -57,24 +47,11 @@ export default {
 		base64: '',
 		prevBase64Str: 'data:image/jpg;base64,',
 	}),
-	watch: {
-		file(curr) {
-			console.log('* 父组件接收: ', curr);
-		},
-	},
-	mounted() {
-    window.store = store
-    window.originStore = originStore
-
-    // storeEvent.onApiKey((curr, prev)=>{
-    //   console.log('* apiKeys1', curr, prev)
-    // })
-
-
-    // console.log('* store', store.size)
-    // store.set('union', '😄')
-		// this.base64ifyImage(imgPath1);
-		// sleep(2000).then(_ => this.$bus.emit(BusName.apiKey, 'decrease'))
+	created() {
+		/* 监听 */
+		store.listenModeIndex((curr, prev) => {
+			isDefNum(curr) && (this.index = curr);
+		});
 	},
 	methods: {
 		changeModeIndex(i) {
@@ -135,57 +112,14 @@ export default {
 <style lang="scss" scoped>
 @import '~@/style/index.scss';
 .compress-container {
-	background-color: $gray;
+  background-color: #f2f2f2;
 	padding: 30px 0 0;
-	overflow: auto;
+  overflow: auto;
+  
 
-	> .btn-box {
-		.btn {
-			padding: 16px 24px;
-			border: none;
-			outline: none;
-			background-color: green;
-			border-radius: 2px;
-			font-size: 20px;
-			color: white;
-
-			&.compressing {
-				opacity: 0.5;
-			}
-		}
-	}
-
-	> .base64-box {
-		box-sizing: border-box;
-		width: 100%;
-		// min-height: 300px;
-		padding: 10px;
-
-		background-color: rgb(193, 231, 255);
-		background-position: center;
-		background-size: contain;
-		background-repeat: no-repeat;
-
-		.content {
-			@include text-ellipsis(10);
-
-			text-align: justify;
-			overflow: auto;
-			word-wrap: break-word;
-			word-break: break-all;
-		}
-
-		position: relative;
-		.btn-box {
-			position: absolute;
-			top: 0;
-			right: 0;
-			.btn {
-				padding-left: 1em;
-				padding-right: 1em;
-				height: 40px;
-			}
-		}
-	}
+  .com-body{
+    border: 1px solid;
+    padding: 10px;
+  }
 }
 </style>

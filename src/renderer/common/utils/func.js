@@ -44,3 +44,10 @@ export const effectify = (num, digit, addZero) => {
   }
 	return res;
 };
+
+
+/* 驼峰化 */
+const camelizeRE = /-(\w)/g
+export const camelize = ((str) => {
+  return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
+})

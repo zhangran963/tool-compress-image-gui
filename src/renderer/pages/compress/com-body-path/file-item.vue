@@ -19,13 +19,12 @@
 </template>
 
 <script>
-import ComIcon from './icon';
 import ComStatusAnimation from './status-animation';
 import { fsStat, effectify } from '../../../common/utils';
 
 export default {
 	props: { file: { type: null } },
-	components: { ComIcon, ComStatusAnimation },
+	components: { ComStatusAnimation },
 	data: () => ({
     prevSize: '',
     currSize: ''

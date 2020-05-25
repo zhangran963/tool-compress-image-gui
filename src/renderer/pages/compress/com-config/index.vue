@@ -1,41 +1,43 @@
 <template>
-	<div class="com-config mode dealwith-mode">
+	<div class="com-config">
 		<!-- 处理模式 -->
-		<van-radio-group v-model="index" direction="horizontal" @change="changeHandler">
+		<van-radio-group class="mode-box" v-model="index" direction="horizontal" @change="changeHandler">
 			<van-radio v-for="(item, i) of items" :key="i" :name="i" shape="square"
 				>{{ item.title }}<span class="tip">{{ item.tip }}</span></van-radio
 			>
 		</van-radio-group>
+
+		<!-- 处理方式 -->
+		<com-path class="dealwith-box" v-if="index === 0"></com-path>
 	</div>
 </template>
 
 <script>
-import { typify, execPro, writeConfig, sleep, store } from '../../../common/utils';
+import { typify, execPro, sleep, store, isDefNum } from '../../../common/utils';
 import { modeItems } from './mode';
 
+import ComPath from './by-path';
+import ComBase64 from './by-base64';
+
 export default {
+	components: { ComPath, ComBase64 },
 	data: () => ({
 		items: modeItems.map((item) => item.mode),
-		index: null,
+		index: store.get('modeIndex'),
 	}),
 	created() {
-    /* 每次打开, 默认索引是0(压缩模式) */
-    // sleep(500).then(_ => {
-    //   this.changeHandler(0)
-    // })
-    console.log('* store', store.apiKey)
-
-    
-  },
+		/* 监听 */
+		store.listenModeIndex((curr, prev) => {
+			isDefNum(curr) && (this.index = curr);
+		});
+	},
 	methods: {
+		/**
+		 * 更改模式索引
+		 */
 		changeHandler(i) {
-			writeConfig({ modeIndex: i }).then((res) => {
-        const newModeIndex = res.modeIndex
-				let { changeModeIndex } = this.$parent;
-        this.index = newModeIndex;
-        // console.log('* ', changeModeIndex, i,newModeIndex)
-				changeModeIndex(newModeIndex);
-			});
+      // console.log('* ', isDefNum, i)
+			isDefNum(i) && store.set('modeIndex', i);
 		},
 	},
 };
@@ -45,10 +47,22 @@ export default {
 @import '~@/style/index.scss';
 
 .com-config {
+  $padding: 1em;
+
 	/* 处理模式 */
-	border: 2px dashed $blue;
-	padding: 2em 1em;
+	// border: 2px dashed $blue;
+	padding: 1.5 * $padding 0;
 	background-color: $white;
+
+	.mode-box {
+		padding: 0 $padding;
+	}
+	.dealwith-box {
+    padding: $padding $padding 0;
+		cursor: default;
+    background-color: $white;
+    box-sizing: border-box;
+	}
 
 	/deep/ .van-radio {
 		overflow: visible;

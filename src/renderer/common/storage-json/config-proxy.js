@@ -1,6 +1,6 @@
 const path = require('path');
 const { fsExists, fsReadFile, fsWriteFile, homeDir  } = require('../utils/node');
-
+require('./private.json')
 
 /* 默认配置 */
 const defaultConfig = {
