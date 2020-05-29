@@ -9,21 +9,23 @@
 
 .my-btn {
 	min-width: 30px;
-	height: 2em;
-	line-height: 2em;
+	height: 32px;
+	line-height: 32px;
 	border: 1px solid $darkBlue;
 	color: $darkBlue;
-	padding: 0 0.8em;
+	padding: 0 1em;
 	border-radius: $borderRadiusSmall;
   font-size: $fontSize * 0.8;
   width: fit-content;
   display: inline-block;
   box-sizing: border-box;
   text-align: center;
+  background-color: #fff;
+  cursor: pointer;
 }
 
 /** 选择文件夹input */
-.hidden-input {
+input.hidden {
 	visibility: hidden;
 	position: absolute;
 	z-index: -1;

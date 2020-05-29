@@ -7,15 +7,16 @@
 </template>
 
 <script>
-import { sleep, isDefObj, isDefStr, isDefNum, BusName } from '../../../common/utils';
+import { sleep, isDefObj, isDefStr, isDefNum } from '../../../common/utils';
 import Tinify from '../node-compress/Tinify';
 
 export default {
 	data: () => ({
 		total: 500,
-		num: null,
+		num: null, /* 已用次数 */
 	}),
 	computed: {
+		/* 使用量百分比 */
 		percent() {
 			if (isDefNum(this.num)) {
 				return (this.num / this.total) * 100;
@@ -26,23 +27,21 @@ export default {
 	},
 	created() {
 		this.getCurrCount();
+
+		this.$bus.on('decrease', this.decreaseFunc);
 	},
 	methods: {
-		update(params) {
-			if (isDefStr(params)) {
-				if (params === 'decrease') {
-					this.num = this.num - 1;
-				}
-			} else if (isDefNum(params)) {
-				this.num = params;
-			} else {
-				this.getCurrCount();
-			}
+		/* 减少 */
+		decreaseFunc() {
+			this.num = this.num + 1;
 		},
 		/* 获取最新数量 */
 		getCurrCount() {
 			Tinify.getCompressionCount().then((currNum) => (this.num = currNum));
 		},
+	},
+	beforeDestroy() {
+		this.$bus.off('decrease', this.decreaseFunc);
 	},
 };
 </script>

@@ -3,7 +3,7 @@
  */
 {/* <input
 	type='file'
-	class='hidden-input'
+	class='hidden'
 	id='file-input'
 	accept='image/png, image/jpeg, image/jpg'
 	v-input-file='receiveHandler'

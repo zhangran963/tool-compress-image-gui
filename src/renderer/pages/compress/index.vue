@@ -112,13 +112,15 @@ export default {
 <style lang="scss" scoped>
 @import '~@/style/index.scss';
 .compress-container {
-  background-color: #f2f2f2;
+  background-color: #f5f5f5;
 	padding: 30px 0 0;
   overflow: auto;
+  user-select: none;
+  cursor: default;
   
 
   .com-body{
-    border: 1px solid;
+    // border: 1px solid;
     padding: 10px;
   }
 }

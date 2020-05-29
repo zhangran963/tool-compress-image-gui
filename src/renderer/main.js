@@ -9,9 +9,20 @@ Vue.config.productionTip = false;
 
 /* 初始化处理 */
 import './common/global-vue/init';
-import "./common/directives/index";
+import './common/directives/index';
 // import { sleep } from "./common/utils";
 
+/* 类似localStorage */
+window.myStorage = {
+	setItem(key, value) {
+		const jsonStr = JSON.stringify(value);
+		localStorage.setItem(key, jsonStr);
+  },
+  getItem(key){
+    const jsonStr = localStorage.getItem(key) || null
+    return JSON.parse(jsonStr)
+  }
+};
 
 new Vue({
 	components: { App },

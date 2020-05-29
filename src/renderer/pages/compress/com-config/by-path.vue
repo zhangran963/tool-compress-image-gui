@@ -13,7 +13,7 @@
 			</div>
 
 			<!-- 选择文件夹 -->
-			<input type="file" class="hidden-input" id="dir-input" webkitdirectory directory @change="changeOutPath" />
+			<input type="file" class="hidden" id="dir-input" webkitdirectory directory @change="changeOutPath" />
 		</div>
 
 		<div class="name-box">
@@ -99,7 +99,6 @@ export default {
 
 /* 输出模式 */
 .com-output-mode {
-
 
 	.path-box,
 	.name-box {
