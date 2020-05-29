@@ -17,7 +17,7 @@ export function templatifyFilename(pattern = '', index = 0, name = '') {
 		index: '' + index,
 		name,
 		date: `${date.getFullYear()}${addZero(date.getMonth() + 1)}${addZero(date.getDate())}`,
-		time: `${addZero(date.getHours())}:${addZero(date.getMinutes())}`,
+		time: `${addZero(date.getHours())}${addZero(date.getMinutes())}`, /* 文件名称不能包含':' */
 	};
 	let res = varItems.reduce((prev, key) => {
 		let innerKey = key.slice(1, -1);

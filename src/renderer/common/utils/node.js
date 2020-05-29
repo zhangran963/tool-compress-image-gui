@@ -7,6 +7,7 @@ export const fsExists = promisify(fs.exists);
 export const fsReadFile = promisify(fs.readFile);
 export const fsWriteFile = promisify(fs.writeFile);
 export const fsStat = promisify(fs.stat);
+export const fsUnlink = promisify(fs.unlink)
 
 /**
  * 执行命令

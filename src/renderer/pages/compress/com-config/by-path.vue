@@ -110,7 +110,7 @@ export default {
 			line-height: 30px;
 		}
 		.left {
-			width: 8.2em;
+			width: 7em;
 		}
 		.right {
 			flex: 1;

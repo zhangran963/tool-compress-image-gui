@@ -51,9 +51,6 @@ export default {
 .com-file-item {
 	@include flex-row(space-between, center);
 	margin-bottom: 10px;
-	&:last-child {
-		margin-bottom: 0;
-	}
 	padding: 8px 0;
 	background-color: $gray;
 	border-radius: $borderRadius;

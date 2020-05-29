@@ -4,8 +4,8 @@
 			<h4 class="title">输出文件名模板</h4>
 			<ul class="items">
 				<li><span>{name}：</span>原始文件名</li>
-				<li><span>{date}：</span>日期，如 "20200501"</li>
-				<li><span>{time}：</span>时间，如 "12:07"</li>
+				<li><span>{date}：</span>日期，如 "2020-05-01"</li>
+				<li><span>{time}：</span>时间，如 "1255"</li>
 				<li><span>{index}：</span>压缩过程中的索引值，由1开始</li>
 			</ul>
 			<div class="input-box">
@@ -24,8 +24,8 @@ const defTemplate = '{name}';
 
 /* 用于示例的固定值 */
 const defName = '我是文件名',
-	defDate = '20200501',
-	defTime = '12:55',
+	defDate = '2020-05-01',
+	defTime = '1255',
 	defIndex = '1';
 export default {
 	props: ['show'],

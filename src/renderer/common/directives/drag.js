@@ -71,7 +71,7 @@ export default {
       }
 
 
-      el.style.cursor = items.length > 0 ? 'copy': 'no-drop';
+      // el.style.cursor = items.length > 0 ? 'copy': 'no-drop';
       
 		});
 	},

@@ -13,7 +13,7 @@ import Tinify from '../node-compress/Tinify';
 export default {
 	data: () => ({
 		total: 500,
-		num: null, /* 已用次数 */
+		num: null /* 已用次数 */,
 	}),
 	computed: {
 		/* 使用量百分比 */
@@ -26,22 +26,18 @@ export default {
 		},
 	},
 	created() {
+		this.$bus.on('refresh', this.getCurrCount);
 		this.getCurrCount();
-
-		this.$bus.on('decrease', this.decreaseFunc);
 	},
 	methods: {
-		/* 减少 */
-		decreaseFunc() {
-			this.num = this.num + 1;
-		},
 		/* 获取最新数量 */
 		getCurrCount() {
+      /* 刷新 */
 			Tinify.getCompressionCount().then((currNum) => (this.num = currNum));
 		},
 	},
 	beforeDestroy() {
-		this.$bus.off('decrease', this.decreaseFunc);
+		this.$bus.off('refresh', this.getCurrCount);
 	},
 };
 </script>

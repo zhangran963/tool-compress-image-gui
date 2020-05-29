@@ -38,7 +38,7 @@
 
 <script>
 import { typify, execPro, queue, sleep, path, templatifyFilename, effectify, store } from '../../../common/utils/index';
-import { Tinify } from '../node-compress/Tinify';
+import Compress from '../node-compress/index';
 import ComFileItem from './file-item';
 const fs = require('fs');
 
@@ -113,7 +113,7 @@ export default {
 			this.outPath = outPath;
 			this.filenameTemplate = filenameTemplate;
 
-      /* 数据已保存 */
+			/* 数据已保存 */
 			queue()
 				.then((res) => {
 					console.log('* all', res);
@@ -134,16 +134,7 @@ export default {
 			const { originPath, formatPath, originFilename, formatFilename } = this.decodeOutputInfo(file.path, currIndex);
 			file.status = 2;
 
-			// return sleep(3000, formatPath).then((res) => {
-			// 	this.$notify.success(`压缩成功: ${originFilename} => ${formatFilename}`, 5000);
-			// 	file.status = 3;
-			// 	/* 添加输出文件大小 */
-			// 	file.currSize = '11.1' + 'kb';
-			// 	return res;
-			// });
-
-			return Tinify.fromFile(originPath)
-				.toFile(formatPath)
+      return Compress(originPath, formatPath)
 				.then((res) => {
 					this.$notify.success(`压缩成功: ${originFilename} => ${formatFilename}`);
 					file.status = 3;
@@ -155,10 +146,11 @@ export default {
 				.catch((err) => {
 					file.status = 4;
 					console.error('单文件', err);
-				}).finally(err => {
-          /* 剩余压缩次数减一 */
-          this.$bus.emit('decrease')
-        })
+				})
+				.finally((err) => {
+					/* 剩余压缩次数减一 */
+					this.$bus.emit('refresh');
+				});
 		},
 
 		decodeOutputInfo(originPath /* 原始路径+名称 */, index) {
@@ -198,13 +190,17 @@ export default {
 @import '~@/style/index.scss';
 
 .com-body-path {
+	padding: 10px 0;
+
 	.items-box {
 		min-height: 180px;
-		@include flex-col(flex-start, stretch);
+		max-height: 300px;
+    overflow-y: scroll;
+    padding: 0 10px;
 	}
 	.items-box.empty {
 		.placeholder {
-			flex: 1;
+      margin-top: 80px;
 			@include flex-row(center, center);
 			color: darkgray;
 		}
