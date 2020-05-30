@@ -1,8 +1,8 @@
 <template>
-	<div class="com-config">
+	<div class="com-type">
 		<!-- 处理模式 -->
-		<van-radio-group class="mode-box" v-model="index" direction="horizontal" @change="changeHandler">
-			<van-radio v-for="(item, i) of items" :key="i" :name="i" shape="square"
+		<van-radio-group class="mode-items" v-model="index" direction="horizontal" @change="changeHandler">
+			<van-radio class="mode-item" v-for="(item, i) of items" :key="i" :name="i" shape="square"
 				>{{ item.title }}<span class="tip">{{ item.tip }}</span></van-radio
 			>
 		</van-radio-group>
@@ -36,26 +36,31 @@ export default {
 		 * 更改模式索引
 		 */
 		changeHandler(i) {
-      // console.log('* ', isDefNum, i)
 			isDefNum(i) && store.set('modeIndex', i);
 		},
-	},
+  },
+  beforeDestroy(){
+    store.listenModeIndex.unSubscribe()
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 @import '~@/style/index.scss';
 
-.com-config {
+.com-type {
   $padding: 1em;
 
 	/* 处理模式 */
-	// border: 2px dashed $blue;
 	padding: 1.5 * $padding 0;
 	background-color: $white;
 
-	.mode-box {
-		padding: 0 $padding;
+	.mode-items {
+    padding: 0 $padding;
+    
+    .mode-item{
+      padding: 8px 0;
+    }
 	}
 	.dealwith-box {
     padding: $padding $padding 0;

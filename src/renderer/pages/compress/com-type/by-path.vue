@@ -35,7 +35,7 @@
 
 <script>
 import { typify, execPro, homeDir, store } from '../../../common/utils';
-import { modeItems } from '../com-config/mode';
+import { modeItems } from '../com-type/mode';
 import ModalChangeTemplate from './modal-change-template';
 
 const defHomeDir = `${homeDir}/Desktop`;
@@ -90,7 +90,11 @@ export default {
 			path = path || this.outPath;
 			execPro(`open ${path}`);
 		},
-	},
+  },
+  beforeDestroy(){
+    store.listenOutPath.unSubscribe()
+    store.listenFilenameTemplate.unSubscribe()
+  }
 };
 </script>
 

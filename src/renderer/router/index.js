@@ -8,6 +8,16 @@ export default new Router({
 	routes: [
 		{
 			path: '/',
+			name: 'check',
+			component: () => import('../pages/check'),
+		},
+		{
+			path: '/config',
+			name: 'config',
+			component: () => import('../pages/config'),
+		},
+		{
+			path: '/compress',
 			name: 'drag-page',
 			component: () => import('../pages/compress'),
 		},

@@ -7,7 +7,7 @@
 
 <script>
 import { typify, execPro } from '../../../common/utils';
-import { modeItems } from '../com-config/mode';
+import { modeItems } from '../com-type/mode';
 
 export default {
 	props: { modeIndex: { type: Number } },

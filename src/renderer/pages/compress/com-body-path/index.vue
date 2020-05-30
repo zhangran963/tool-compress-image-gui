@@ -38,7 +38,7 @@
 
 <script>
 import { typify, execPro, queue, sleep, path, templatifyFilename, effectify, store } from '../../../common/utils/index';
-import Compress from '../node-compress/index';
+import { compress } from '../node-compress/index';
 import ComFileItem from './file-item';
 const fs = require('fs');
 
@@ -57,7 +57,6 @@ export default {
 			deep: true,
 			immediate: true,
 			handler(currFiles, prevFiles) {
-				const that = this;
 				if (Array.isArray(currFiles) && Array.isArray(prevFiles)) {
 					/* 状态 */
 					let statusArr = currFiles.map((file) => file.status);
@@ -69,7 +68,10 @@ export default {
 						this.btnStatus = 2; /* 部分压缩中: 进度 */
 					} else if (statusArr.every((item) => item === 3)) {
 						this.btnStatus = 3; /* 全部压缩完成: 清空 */
-					}
+					}else{
+            /* 出错: 如文件未找到等 */
+            this.btnStatus = 3;
+          }
 
 					const addFiles = currFiles.slice(prevFiles.length, currFiles.length);
 					addFiles.forEach((file) => {
@@ -91,7 +93,8 @@ export default {
 			/* 过滤: 已存在的数据 + 文件夹 */
 			let filteredFiles = newFiles
 				.filter((newFile) => {
-					const isExist = !this.files.some((file) => file.path === newFile.path);
+          /* 文件名 + 大小 都一致 => 同一个文件 */
+					const isExist = !this.files.some((file) => file.path === newFile.path && file.size === newFile.size);
 					return isExist && !newFile.isDir;
 				})
 				.map((file) => {
@@ -108,7 +111,6 @@ export default {
 
 		/* 总处理: 开始, 全部完成 */
 		startCompress() {
-			// myStorage.setItem('files', this.files)
 			const { filenameTemplate = '', outPath = '' } = store.store;
 			this.outPath = outPath;
 			this.filenameTemplate = filenameTemplate;
@@ -116,13 +118,13 @@ export default {
 			/* 数据已保存 */
 			queue()
 				.then((res) => {
-					console.log('* all', res);
+          console.log('* all', res);
 				})
 				.catch((err) => {
-					console.error('* err', err);
+					console.error('压缩错误: ', err);
 				})
 				.finally(() => {
-					this.prevLength = this.files.length;
+          this.prevLength = this.files.length;
 				});
 		},
 
@@ -133,8 +135,8 @@ export default {
 			/* 解析路径 */
 			const { originPath, formatPath, originFilename, formatFilename } = this.decodeOutputInfo(file.path, currIndex);
 			file.status = 2;
-
-      return Compress(originPath, formatPath)
+      
+      return compress(originPath, formatPath)
 				.then((res) => {
 					this.$notify.success(`压缩成功: ${originFilename} => ${formatFilename}`);
 					file.status = 3;
@@ -143,12 +145,13 @@ export default {
 					file.currSize = effectify(size / 1024, 2, true) + 'kb';
 					return sleep(1000, file);
 				})
-				.catch((err) => {
-					file.status = 4;
-					console.error('单文件', err);
+				.catch(({status, message}) => {
+          file.status = 4;
+          this.$notify.error(`${message}`, 3000)
+
 				})
 				.finally((err) => {
-					/* 剩余压缩次数减一 */
+					/* 查询剩余压缩次数 */
 					this.$bus.emit('refresh');
 				});
 		},

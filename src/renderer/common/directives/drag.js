@@ -14,8 +14,8 @@ const decodeDirectiveAll = (info) => {
 		isFile = [paramsIsFile, modifierFile].includes(true);
 		isDir = [paramsIsDir, modifierDir].includes(true);
 	} else if (typeof params === 'function') {
-    dragFinishHandler = params;
-    isFile = [modifierFile].includes(true);
+		dragFinishHandler = params;
+		isFile = [modifierFile].includes(true);
 		isDir = [modifierDir].includes(true);
 	}
 
@@ -28,8 +28,7 @@ export default {
 	},
 	inserted: function(el, info, VNode) {
 		/* DOM, info: {expression:键, value: 值, name: '名称', modifiers: {描述符: true}}, VNode */
-    let { isFile, isDir, dragFinishHandler } = decodeDirectiveAll(info);
-    // console.log('* ', isFile, isDir)
+		let { isFile, isDir, dragFinishHandler } = decodeDirectiveAll(info);
 
 		/* 释放 */
 		el.addEventListener('drop', (e) => {
@@ -39,11 +38,10 @@ export default {
 			const files = dataTransfer.files;
 
 			const dealFiles = Array.from(files).map((file) => {
-        /* 需解析, 否则是 [object File] 类型 */
+				/* 需解析, 否则是 [object File] 类型 */
 				const { name, path, type, size, lastModified, lastModifiedDate } = file;
 				return { name, path, type, size, lastModified, lastModifiedDate };
-      });
-
+			});
 
 			/* 自定义事件 dragFinish */
 			let mineEvent = new CustomEvent('dragFinish', { detail: dealFiles });
@@ -58,21 +56,18 @@ export default {
 			let { dataTransfer } = e;
 			let items = Array.from(dataTransfer.items).map(({ kind, type }) => {
 				return { kind, type, isBlurFile: Boolean(type), isBlurDir: !Boolean(type) };
-      });
-      /* 过滤 文件/文件夹 */
-      if(isFile && isDir){
+			});
+			/* 过滤 文件/文件夹 */
+			if (isFile && isDir) {
+			} else if (isFile && !isDir) {
+				items = items.filter((item) => item.isBlurFile);
+			} else if (!isFile && isDir) {
+				items = items.filter((item) => item.isBlurDir);
+			} else {
+				items = [];
+			}
 
-      }else if(isFile && !isDir){
-        items = items.filter(item => item.isBlurFile)
-      }else if(!isFile && isDir){
-        items = items.filter(item => item.isBlurDir)
-      }else{
-        items = []
-      }
-
-
-      // el.style.cursor = items.length > 0 ? 'copy': 'no-drop';
-      
+			// el.style.cursor = items.length > 0 ? 'copy': 'no-drop';
 		});
 	},
 	update() {},

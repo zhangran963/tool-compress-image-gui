@@ -8,7 +8,7 @@
 
 <script>
 import { sleep, isDefObj, isDefStr, isDefNum } from '../../../common/utils';
-import Tinify from '../node-compress/Tinify';
+import Tinify, {getCompressionCount} from '../node-compress/Tinify';
 
 export default {
 	data: () => ({
@@ -33,7 +33,7 @@ export default {
 		/* 获取最新数量 */
 		getCurrCount() {
       /* 刷新 */
-			Tinify.getCompressionCount().then((currNum) => (this.num = currNum));
+			getCompressionCount().then((currNum) => (this.num = currNum));
 		},
 	},
 	beforeDestroy() {

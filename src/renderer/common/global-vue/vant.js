@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import { RadioGroup, Radio, Notify, Button, Popup } from 'vant';
+import { RadioGroup, Radio, Notify, Button, Popup, Loading } from 'vant';
 /* 单选 */
 Vue.use(Radio);
 Vue.use(RadioGroup);
@@ -8,6 +8,7 @@ Vue.use(RadioGroup);
 Vue.use(Button);
 /* 弹出层 */
 Vue.use(Popup)
+Vue.use(Loading)
 
 import { sleep } from '../utils';
 

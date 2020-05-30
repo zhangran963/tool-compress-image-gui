@@ -14,7 +14,7 @@ export function templatifyFilename(pattern = '', index = 0, name = '') {
 
 	const date = new Date();
 	let paramBox = {
-		index: '' + index,
+		index: parseInt(index)+1,
 		name,
 		date: `${date.getFullYear()}${addZero(date.getMonth() + 1)}${addZero(date.getDate())}`,
 		time: `${addZero(date.getHours())}${addZero(date.getMinutes())}`, /* 文件名称不能包含':' */

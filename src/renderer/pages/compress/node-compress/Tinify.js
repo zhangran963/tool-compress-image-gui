@@ -1,10 +1,18 @@
-import { store } from "../../../common/utils";
-
-
+import { store } from '../../../common/utils';
 
 const Tinify = require('tinify');
-Tinify.key = 'zq9bG1BlfSg7Kt6YHwyVqhhyVCK4JFfR';
+let apiKey = (Tinify.key = store.get('apiKey'));
+store.listenApiKey((curr) => {
+	Tinify.key = apiKey = curr;
+});
 
+function getTinify() {
+	if (apiKey && apiKey.length === 32) {
+		return Tinify;
+	} else {
+		return null;
+	}
+}
 /**
  * 重写验证方法
  */
@@ -16,7 +24,6 @@ function validate() {
 			} else {
 				res(true);
 			}
-			// console.log('* ', Tinify.compressionCount);
 		});
 	});
 }
@@ -38,8 +45,4 @@ function getCompressionCount() {
 	}
 }
 
-export { Tinify };
-export default {
-	validate,
-	getCompressionCount,
-};
+export { Tinify, getTinify, validate, getCompressionCount };

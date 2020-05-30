@@ -47,8 +47,8 @@
 </template>
 
 <script>
-const compress = require('../node-compress/index');
-const base64ify = require('../node-base64ify/index');
+import { compress } from "../node-compress/index";
+import { base64ify } from "../node-base64ify/index";
 import { clipboard } from 'electron';
 import { typify, execPro, store, fsUnlink } from '../../../common/utils/index';
 
@@ -149,7 +149,10 @@ export default {
 				this.$notify.success(`已复制到剪切板`);
 			}
 		},
-	},
+  },
+  beforeDestroy(){
+    store.listenModeIndex.unSubscribe()
+  }
 };
 </script>
 
@@ -188,7 +191,7 @@ export default {
 		text-align: justify;
 		overflow: hidden;
 		word-break: break-all;
-		background-color: #f2f2f2;
+		// background-color: #f2f2f2;
 		background-size: contain;
 		background-repeat: no-repeat;
 		background-position: center;

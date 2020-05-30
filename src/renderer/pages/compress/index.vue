@@ -4,7 +4,7 @@
 		<com-key-status></com-key-status>
 
 		<!-- 操作模式 -->
-		<com-config></com-config>
+		<com-type></com-type>
 
 		<!-- 主体/进度 区 -->
 		<com-body-path class="com-body" v-if="modeIndex === 0"></com-body-path>
@@ -14,14 +14,14 @@
 
 <script>
 import ComKeyStatus from './com-key-status';
-import ComConfig from './com-config';
+import ComType from './com-type';
 import ComBodyPath from './com-body-path/index';
 import ComBodyBase64 from './com-body-base64/index';
 
 import { store, isDefNum } from '../../common/utils';
 
 export default {
-	components: { ComKeyStatus, ComConfig, ComBodyPath, ComBodyBase64 },
+	components: { ComKeyStatus, ComType, ComBodyPath, ComBodyBase64 },
 	data: () => ({
 		modeIndex: store.get('modeIndex'),
 	}),
@@ -31,7 +31,10 @@ export default {
 			isDefNum(curr) && (this.modeIndex = curr);
 		});
 	},
-	methods: {},
+  methods: {},
+  beforeDestroy(){
+    store.listenModeIndex.unSubscribe()
+  }
 };
 </script>
 
@@ -39,15 +42,17 @@ export default {
 @import '~@/style/index.scss';
 
 .page-compress {
-	background-color: #f5f5f5;
+	// background-color: #f5f5f5;
 	padding: 30px 0 0;
 	overflow: auto;
 	user-select: none;
 	cursor: default;
 
 	.com-body {
-		// border: 1px solid;
-		// padding: 10px;
+    border: 1px dashed $blue;
+    border-radius: 2px;
+    width: calc(100% - 10px);
+    margin: 0 auto;
 	}
 }
 </style>
