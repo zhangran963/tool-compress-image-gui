@@ -1,28 +1,21 @@
 <template>
 	<div id="app">
-		<!-- <p class="path">{{$route.fullPath }}</p> -->
-		<!-- <button class="btn-home-page" @click="$router.push('/landing')">root页</button> -->
-		<!-- <button class="btn-home-page" @click="$router.push('/')">home页</button> -->
-
-		<!-- <hr> -->
-
 		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-import { store } from "../common/utils";
+import { store } from '../common/utils';
 
 export default {
 	name: 'vue-electron',
 	created() {
-		window.$router = this.$router;
+		// window.$router = this.$router;
 
 		document.addEventListener('drop', (e) => e.preventDefault());
-    document.addEventListener('dragover', (e) => e.preventDefault());
-    
+		document.addEventListener('dragover', (e) => e.preventDefault());
 
-    window.store = store
+		window.store = store;
 	},
 };
 </script>

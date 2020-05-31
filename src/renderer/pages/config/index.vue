@@ -22,7 +22,7 @@
 		<section>
 			<p>4. 在下方输入框中保存api</p>
 			<div class="input-box">
-				<input type="text" placeholder="api值" maxlength="32" v-model="apiKey" />
+				<input type="text" placeholder="api值" maxlength="32" v-model="apiKey" @keypress.enter="saveFunc" />
 				<van-button class="my-btn" :disabled="!validApiKey" @click="saveFunc">保存</van-button>
 			</div>
 		</section>
@@ -39,6 +39,7 @@ export default {
 	data() {
 		return {
 			apiKey: store.get('apiKey'),
+			valid: false,
 		};
 	},
 	watch: {
@@ -51,6 +52,7 @@ export default {
 		/* apiKey格式是否正确 */
 		validApiKey() {
 			const key = this.apiKey;
+			checkReg.lastIndex = 0; /* 正则表达式的坑 */
 			const isValid = typeof key === 'string' && key.length === 32 && checkReg.test(key);
 			const isEmpty = typeof key === 'string' && key.length === 0;
 			return isValid || isEmpty;
@@ -67,6 +69,13 @@ export default {
 		 */
 		openInBrowser() {
 			shell.openExternal('https://tinypng.com/developers');
+		},
+
+		changeApiKey(e) {
+			const { target = {} } = e;
+			const { value = '' } = target;
+			console.log('* a', value);
+			this.apiKey = value;
 		},
 	},
 };
@@ -90,7 +99,7 @@ export default {
 		padding: 10px;
 	}
 	section {
-    padding: 5px 20px;
+		padding: 5px 20px;
 		p {
 			/**关键点 */
 			.node {
@@ -103,7 +112,7 @@ export default {
 			}
 		}
 		.img-box {
-      margin-top: 5px;
+			margin-top: 5px;
 			@include flex-row(flex-start, center);
 			img {
 				// width: 360px;
@@ -114,7 +123,7 @@ export default {
 		}
 
 		.input-box {
-      margin-top: 5px;
+			margin-top: 5px;
 			@include flex-row(space-between, center);
 			background-color: $gray;
 			display: inline-block;
