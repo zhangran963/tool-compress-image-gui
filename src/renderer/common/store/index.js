@@ -1,6 +1,7 @@
-import { sleep, camelize, emptyHandler } from '../utils';
+import { sleep, camelize, emptyHandler, homeDir, fsExists, path } from '../utils';
 const ElectronStore = require('electron-store');
 
+const defOutPath = ''
 const schema = {
 	apiKey: {
 		type: 'string',
@@ -17,7 +18,7 @@ const schema = {
 	/* 输出路径 */
 	outPath: {
 		type: 'string',
-		default: '',
+		default: defOutPath,
 		minLength: 0,
 		maxLength: 100,
 		// pattern: "[\/\w]", /* 字符串格式 */
@@ -25,7 +26,7 @@ const schema = {
 	/* 文件名模板 */
 	filenameTemplate: {
 		type: 'string',
-		default: '{index}. {name}',
+		default: '{index}.{name}',
 	},
 
 	// percent: {
@@ -114,3 +115,16 @@ Object.keys(schema).forEach((key) => {
 export {
 	store,
 };
+
+
+/* 默认输出路径: ~/Desktop; 其次是 ~ */
+const desktopDir = path.resolve(homeDir, 'Desktop')
+if(store.get('outPath') === defOutPath){
+  fsExists(desktopDir).then(has => {
+    if(has){
+      store.set('outPath', desktopDir)
+    }else{
+      store.set('outPath', homeDir)
+    }
+  })
+}

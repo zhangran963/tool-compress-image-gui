@@ -27,14 +27,14 @@ export default {
 	created() {
 		/* 格式 */
 		if (!this.validApiKey) {
-			return this.$notify.warning(`请配置apiKey`, 4500).then((_) => {
+			return this.$notify.warning(`请配置apiKey`, 4000).then((_) => {
 				this.$router.replace('/config');
 			});
 		}
 		/* 实例化 */
 		const Tinify = getTinify();
 		if (!Tinify) {
-			this.$notify.warning(`请配置apiKey`, 4500).then((_) => {
+			this.$notify.warning(`请配置apiKey`, 4000).then((_) => {
 				this.$router.replace('/config');
 			});
 		} else {
