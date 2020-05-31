@@ -38,7 +38,7 @@ function createWindow() {
 		mainWindow = null;
 	});
 
-  /* start: 修复再Mac中, 不支持粘贴的问题 */
+	/* start: 修复再Mac中, 不支持粘贴的问题 */
 	if (process.platform === 'darwin') {
 		const template = [
 			{
@@ -56,17 +56,31 @@ function createWindow() {
 			{
 				label: 'Edit',
 				submenu: [
-					{ label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-					{ label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+					{ label: '复制', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+					{ label: '粘贴', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+					{
+						label: '全选',
+						accelerator: 'CmdOrCtrl+A',
+						role: 'selectall',
+					},
+					{
+						label: '撤销',
+						accelerator: 'CmdOrCtrl+Z',
+						role: 'undo',
+					},
+					{
+						label: '剪切',
+						accelerator: 'CmdOrCtrl+X',
+						role: 'cut',
+					},
 				],
 			},
 		];
 		Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 	} else {
 		Menu.setApplicationMenu(null);
-  }
-  /* end: 修复再Mac中, 不支持粘贴的问题 */
-  
+	}
+	/* end: 修复再Mac中, 不支持粘贴的问题 */
 }
 
 app.on('ready', createWindow);
