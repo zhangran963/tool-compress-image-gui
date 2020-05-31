@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import axios from 'axios';
-
 import App from './pages/App.vue';
 import router from './router';
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
-Vue.http = Vue.prototype.$http = axios;
-Vue.config.productionTip = false;
+
+// import axios from 'axios';
+// Vue.http = Vue.prototype.$http = axios;
+// Vue.config.productionTip = false;
 
 /* 初始化处理 */
 import './common/global-vue/init';

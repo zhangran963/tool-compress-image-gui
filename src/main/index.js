@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, globalShortcut /* 全局快捷键 */ } from 'electron';
 
 const isDev = process.env.NODE_ENV === 'development';
 /**
@@ -27,6 +27,7 @@ function createWindow() {
 		webPreferences: {
 			nodeIntegration: true /* 支持渲染进程中使用clipboard模块等 */,
 		},
+		skipTaskbar: true,
 	});
 
 	/* 暂定生产模式, 也会开启开发者工具, 方便调试 */
@@ -34,9 +35,15 @@ function createWindow() {
 
 	mainWindow.loadURL(winURL);
 
-	mainWindow.on('closed', () => {
+	mainWindow.on('closed', (e) => {
+		/* 关闭弹窗 */
 		mainWindow = null;
 	});
+	// mainWindow.on('close', (e) => {
+	//   /* 缩小到系统托盘 */
+	//   e.preventDefault();
+	//   mainWindow.hide();
+	// })
 
 	/* start: 修复再Mac中, 不支持粘贴的问题 */
 	if (process.platform === 'darwin') {
@@ -81,6 +88,16 @@ function createWindow() {
 		Menu.setApplicationMenu(null);
 	}
 	/* end: 修复再Mac中, 不支持粘贴的问题 */
+
+	/* 注册快捷键 */
+	globalShortcut.register('CmdOrCtrl+y+y', (event, arg) => {
+		if (mainWindow) {
+      /* 切换: 显示|隐藏 */
+      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+		}else{
+      createWindow()
+    }
+  });
 }
 
 app.on('ready', createWindow);

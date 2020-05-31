@@ -17,16 +17,13 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "compress-image-gui",
+    "productName": "鸭鸭助手",
     "appId": "zhangran963@gmail.com",
     "directories": {
       "output": "build"
     },
     "files": [
-      "dist/electron/**/*",
-      "./src/main/index.js",
-      "./src/renderer/main.js",
-      "./package.json"
+      "dist/electron/**/*"
     ],
     "dmg": {
       "contents": [
@@ -44,7 +41,7 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns",
+      "icon": "build/icons/yaya-512.png",
       "target": "pkg"
     },
     "win": {
