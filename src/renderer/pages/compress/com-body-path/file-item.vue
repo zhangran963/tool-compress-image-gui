@@ -49,11 +49,19 @@ export default {
 @import '~@/style/index.scss';
 
 .com-file-item {
+  flex-shrink: 0;
 	@include flex-row(space-between, center);
 	margin-bottom: 10px;
 	padding: 8px 0;
 	background-color: $gray;
-	border-radius: $borderRadius;
+  border-radius: $borderRadius;
+  
+  &:first-child{
+    margin-top: 10px;
+  }
+  &:last-child{
+    margin-bottom: 10px;
+  }
 
 	.animation-items {
 		width: 52px;

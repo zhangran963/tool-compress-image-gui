@@ -5,9 +5,9 @@
 				<!-- 提示 -->
 				<p class="placeholder">可拖放文件到这里</p>
 			</div>
-			<div class="btn-box">
+			<div class="btns-box">
 				<label for="file-input" class="my-btn add" v-if="status === null">添加</label>
-				<van-button type="primary" class="my-btn add" v-else loading loading-text="处理中">添加</van-button>
+				<van-button type="primary" class="my-btn add" v-else loading loading-text="处理中"></van-button>
 			</div>
 		</template>
 
@@ -28,7 +28,7 @@
 			<div class="content" :style="{ 'background-image': `url(${base64Items[0].content})` }">
 				{{ base64Item.content }}
 			</div>
-			<div class="btn-box">
+			<div class="btns-box">
 				<van-button type="primary" class="my-btn reset" @click="resetHandler">重置</van-button>
 				<!-- <van-button type="primary" class="my-btn copy" @click="copyHandler()">复制</van-button> -->
 			</div>
@@ -74,7 +74,7 @@ export default {
 			return ['data:image/jpg;base64,[base64]', "background-image: url('data:image/jpg;base64,[base64]');"].map(
 				(template) => {
 					return {
-						btnText: template.replace('[base64]', '...'),
+						btnText: template.replace('[base64]', this.base64.slice(0, 5)+'...'),
 						content: template.replace('[base64]', this.base64),
 					};
 				}
@@ -183,10 +183,8 @@ export default {
 	}
 	/**有内容 */
 	.content {
-		color: rgba(0, 0, 0, 0.15);
 		flex: 1;
-		min-height: 200px;
-		max-height: 300px;
+		color: rgba(0, 0, 0, 0.15);
 		padding: 6px 10px;
 		text-align: justify;
 		overflow: hidden;
@@ -198,15 +196,25 @@ export default {
 	}
 	/**空  */
 	.content.empty {
-		@include flex-col(flex-start, stretch);
+		@include flex-col(center, center);
 		.placeholder {
-			flex: 1;
+      margin-top: -2em;
 			@include flex-col(center, center);
 			color: darkgray;
 		}
-	}
-	.btn-box {
-		margin: 10px 0;
+  }
+  
+  $btnsBoxHeight: 50px;
+  $halfTransparent1: rgba(255,255,255,0.3);
+  $halfTransparent2: rgba(255,255,255,0.8);
+	.btns-box {
+    height: $btnsBoxHeight;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-image: linear-gradient(to bottom, transparent 0, $halfTransparent1 50%, $white 100%), linear-gradient(to bottom, transparent 0%, $halfTransparent2 50%, $white 100%);
 		@include flex-row(center, center);
 
 		.copy,

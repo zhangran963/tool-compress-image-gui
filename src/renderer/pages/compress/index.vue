@@ -42,17 +42,23 @@ export default {
 @import '~@/style/index.scss';
 
 .page-compress {
-	// background-color: #f5f5f5;
+  width: 100vw;
+  min-width: 600px;
+  height: 100vh;
+  min-height: 500px;
+  overflow: auto;
+  
 	padding: 30px 0 0;
-	overflow: auto;
 	user-select: none;
-	cursor: default;
+  cursor: default;
+  @include flex-col(space-between, stretch);
 
 	.com-body {
+    flex: 1;
     border: 1px dashed $blue;
     border-radius: 2px;
     width: calc(100% - 10px);
-    margin: 0 auto;
+    margin: 5px auto;
 	}
 }
 </style>

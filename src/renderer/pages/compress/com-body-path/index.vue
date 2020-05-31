@@ -10,6 +10,7 @@
 		<div class="items-box" v-else>
 			<!-- 文件列表 -->
 			<com-file-item
+        class="file-item"
 				v-for="(file, index) of files"
 				:key="index"
 				:file="file"
@@ -193,17 +194,21 @@ export default {
 @import '~@/style/index.scss';
 
 .com-body-path {
-	padding: 10px 0;
+  // padding: 10px 0;
+  @include flex-col(space-between, stretch);
+  position: relative;
 
 	.items-box {
-		min-height: 180px;
-		max-height: 300px;
+    flex: 1;
     overflow-y: scroll;
     padding: 0 10px;
+
+    @include flex-col(flex-start, stretch);
 	}
 	.items-box.empty {
+    @include flex-col(center, center);
 		.placeholder {
-      margin-top: 80px;
+      margin-top: -2em;
 			@include flex-row(center, center);
 			color: darkgray;
 		}
@@ -213,8 +218,20 @@ export default {
 		}
 	}
 
-	// 按钮盒子
+  // 按钮盒子
+  $btnsBoxHeight: 50px;
+  $halfTransparent: rgba(255,255,255,0.7);
+  .items-box .file-item:last-child{
+    margin-bottom: $btnsBoxHeight;
+  }
 	.btns-box {
+    height: $btnsBoxHeight;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-image: linear-gradient(to bottom, transparent 0, $halfTransparent 50%, $halfTransparent 100%), linear-gradient(to bottom, transparent 0%, $halfTransparent 50%, $white 100%);
 		@include flex-row(center, center);
 		.my-btn {
 			margin: 0 10px;
