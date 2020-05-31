@@ -148,8 +148,8 @@ export default {
 				})
 				.catch(({status, message}) => {
           file.status = 4;
+          file.error = message;
           this.$notify.error(`${message}`, 3000)
-
 				})
 				.finally((err) => {
 					/* 查询剩余压缩次数 */
@@ -200,6 +200,7 @@ export default {
 
 	.items-box {
     flex: 1;
+    flex-shrink: 0;
     overflow-y: scroll;
     padding: 0 10px;
 

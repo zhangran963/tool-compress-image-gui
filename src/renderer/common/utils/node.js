@@ -2,6 +2,7 @@ const { promisify } = require('util');
 const { exec } = require('child_process');
 const fs = require('fs');
 const os = require('os');
+const Path = require('path')
 
 export const fsExists = promisify(fs.exists);
 export const fsReadFile = promisify(fs.readFile);
@@ -19,7 +20,9 @@ export const execPro = promisify(exec);
  * @param {object} file
  */
 export const typify = (file) => {
-	const { name, path, type, size } = file;
+  const { name, path, type, size } = file;
+  /* 路径,格式 */
+  const {dir, ext} = Path.parse(path)
 
 	/* 处理文件(夹)属性 */
 	const stat = fs.statSync(path);
@@ -27,7 +30,7 @@ export const typify = (file) => {
 	const isDir = stat.isDirectory();
 	const isFile = stat.isFile();
 
-	return Object.assign(file, { mode, isDir, isFile });
+	return Object.assign(file, { mode, isDir, isFile, dir, ext });
 };
 
 export const homeDir = os.homedir();
